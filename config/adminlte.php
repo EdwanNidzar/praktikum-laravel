@@ -318,8 +318,8 @@ return [
         ['header' => 'Master Data'],
         [
             'text' => 'User',
-            'url'  => 'admin/user',
             'icon' => 'far fa-fw fa-user',
+            'route'  => 'users.index',
         ],
 
         
