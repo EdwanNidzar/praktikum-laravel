@@ -25,3 +25,5 @@ Route::resource('users', App\Http\Controllers\UserController::class);
 
 Route::resource('barang', App\Http\Controllers\BarangController::class);
 Route::get('get-barang', [App\Http\Controllers\BarangController::class, 'getBarang'])->name('get-barang');
+Route::get('print', [App\Http\Controllers\BarangController::class, 'print'])->name('print');
+Route::get('export', [App\Http\Controllers\BarangController::class, 'export'])->name('export');

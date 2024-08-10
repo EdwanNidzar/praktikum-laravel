@@ -15,6 +15,8 @@
         <div class="card-header">
           <h1 class="card-title" style="size: 20px; font-weight: bold">Daftar Barang</h1>
           <a href="{{ route('barang.create') }}" class="btn btn-primary float-right">Tambah Data</a>
+          <a href="{{ route('print') }}" class="btn btn-primary float-right" target="_blank">Print</a>
+          <a href="{{ route('export') }}" class="btn btn-primary float-right" target="_blank">export</a>
         </div>
         <div class="card-body">
           <table class="table table-bordered" id="tableBarang">
@@ -25,6 +27,7 @@
                     <th>Merk</th>
                     <th>Tipe</th>
                     <th>Satuan</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -54,6 +57,7 @@
                     { data: 'merk', name: 'merk' },
                     { data: 'tipe', name: 'tipe' },
                     { data: 'satuan', name: 'satuan' },
+                    { data: 'aksi', name: 'aksi', orderable: false, searchable: false, sClass:'text-center'},
                 ]
             });
             

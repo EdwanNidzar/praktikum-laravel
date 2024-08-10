@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BarangController extends Controller
 {
@@ -22,7 +24,16 @@ class BarangController extends Controller
             $barang = Barang::all();
 
             return DataTables::of($barang)
+                ->editColumn('aksi', function ($barang) {
+                    return view('partials._action', [
+                        'model' => $barang,
+                        'show_url' => route('barang.show', $barang->id),
+                        'edit_url' => route('barang.edit', $barang->id),
+                        'delete_url' => route('barang.destroy', $barang->id),
+                    ]);
+                })
                 ->addIndexColumn()
+                ->rawColumns(['aksi'])
                 ->make(true);
         }
     }
@@ -32,7 +43,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.barang.create');
     }
 
     /**
@@ -40,7 +51,17 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'merk' => 'required',
+            'tipe' => 'required',
+            'satuan' => 'required|numeric',
+        ]);
+
+        $barang = Barang::create($request->all());
+
+        Alert::success('Success', 'Barang berhasil ditambahkan!');
+        return redirect()->route('barang.index');
     }
 
     /**
@@ -48,7 +69,7 @@ class BarangController extends Controller
      */
     public function show(Barang $barang)
     {
-        //
+        return view('admin.barang.show', compact('barang'));
     }
 
     /**
@@ -56,7 +77,7 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        //
+        return view('admin.barang.edit', compact('barang'));
     }
 
     /**
@@ -64,7 +85,17 @@ class BarangController extends Controller
      */
     public function update(Request $request, Barang $barang)
     {
-        //
+        $request->validate([
+            'nama_barang' => 'required|string|max:255',
+            'merk' => 'required',
+            'tipe' => 'required',
+            'satuan' => 'required|numeric',
+        ]);
+
+        $barang->update($request->all());
+
+        Alert::success('Success', 'Barang berhasil diupdate!');
+        return redirect()->route('barang.index');
     }
 
     /**
@@ -72,6 +103,22 @@ class BarangController extends Controller
      */
     public function destroy(Barang $barang)
     {
-        //
+        $barang->destroy($barang->id);
+
+        Alert::success('Success', 'Barang berhasil dihapus!');
+        return redirect()->route('barang.index');
+    }
+
+    public function print(Request $request)
+    {
+        $barang = Barang::all();
+        $pdf = PDF::loadView('admin.barang._pdf', compact('barang'));
+        return $pdf->stream();
+    }
+
+    public function export()
+    {
+        $barang = Barang::all();
+        return view('admin.barang._excel', compact('barang'));
     }
 }

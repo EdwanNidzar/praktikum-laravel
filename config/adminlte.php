@@ -321,7 +321,11 @@ return [
             'icon' => 'far fa-fw fa-user',
             'route'  => 'users.index',
         ],
-
+        [
+            'text' => 'Barang',
+            'icon' => 'far fa-fw fa-file',
+            'route'  => 'barang.index',
+        ],        
         
 
         ['header' => 'account_settings'],
