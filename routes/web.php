@@ -22,3 +22,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('users', App\Http\Controllers\UserController::class);
+
+Route::resource('barang', App\Http\Controllers\BarangController::class);
+Route::get('get-barang', [App\Http\Controllers\BarangController::class, 'getBarang'])->name('get-barang');
